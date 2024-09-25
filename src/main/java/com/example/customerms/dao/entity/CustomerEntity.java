@@ -3,6 +3,8 @@ package com.example.customerms.dao.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "customers")
 @Data
@@ -22,4 +24,6 @@ public class CustomerEntity {
     private String pin;
 
     private Double balance;
+
+    private LocalDateTime birthday;
 }

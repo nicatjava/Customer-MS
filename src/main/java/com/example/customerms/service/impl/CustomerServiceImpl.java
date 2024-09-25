@@ -8,8 +8,12 @@ import com.example.customerms.exception.CustomerNotFoundException;
 import com.example.customerms.mapper.CustomerMapper;
 import com.example.customerms.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -74,4 +78,25 @@ public class CustomerServiceImpl implements CustomerService {
         findCustomerById.setBalance(newBalance);
         customerRepository.save(findCustomerById);
     }
+
+
+    @Scheduled(initialDelay = 1000)
+    public void happyBirthdayMsg() {
+        CustomerEntity customer = getCustomerById(1L);
+
+        LocalDateTime now = LocalDateTime.now(); // Cari vaxt
+        LocalDateTime birthday = customer.getBirthday(); // Doğum günü LocalDateTime-dir
+
+        // Cari il üçün doğum gününü təyin edirik
+        LocalDateTime thisYearBirthday = birthday.withYear(now.getYear());
+
+        // İki tarix arasındakı saniyə fərqi
+        long secondsBetween = ChronoUnit.SECONDS.between(now, thisYearBirthday);
+
+        System.out.println("Bugünkü tarix və vaxt: " + now);
+        System.out.println("Doğum günü: " + birthday);
+        System.out.println("Bu il doğum günü: " + thisYearBirthday);
+        System.out.println("İki tarix arasındakı saniyə fərqi: " + secondsBetween);
+    }
+
 }
